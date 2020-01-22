@@ -88,17 +88,17 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Primer Nombre</label>
-                                <input type="text" class="form-control" v-model="dato.prop_fnombre" required>
+                                <input type="text" class="form-control" v-model="dato.prop_fnombre" onkeypress="TextOnly(event)" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputPassword4">Segundo Nombre</label>
-                                <input type="text" class="form-control" v-model="dato.prop_Lnombre" required> 
+                                <input type="text" class="form-control" v-model="dato.prop_Lnombre" onkeypress="TextOnly(event)" required> 
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Apellidos</label>
-                                <input type="text" class="form-control" v-model="dato.prop_apellidos" required>
+                                <input type="text" class="form-control" v-model="dato.prop_apellidos" onkeypress="TextOnly(event)" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputPassword4">Cedula</label>
@@ -144,17 +144,17 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Primer Nombre</label>
-                                <input type="text" class="form-control" v-model="dato.prop_fnombre" required>
+                                <input type="text" class="form-control" v-model="dato.prop_fnombre" onkeypress="TextOnly(event)" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputPassword4">Segundo Nombre</label>
-                                <input type="text" class="form-control" v-model="dato.prop_Lnombre" required>
+                                <input type="text" class="form-control" v-model="dato.prop_Lnombre" onkeypress="TextOnly(event)" required>
                             </div>
                         </div>
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Apellidos</label>
-                                <input type="text" class="form-control" v-model="dato.prop_apellidos" required>
+                                <input type="text" class="form-control" v-model="dato.prop_apellidos" onkeypress="TextOnly(event)" required>
                             </div>
                             <div class="form-group col-md-6">
                                 <label for="inputPassword4">Cedula</label>
@@ -174,7 +174,7 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label for="inputEmail4">Ciudad</label>
-                                <input type="text" class="form-control" v-model="dato.prop_Ciudad" required>
+                                <input type="text" class="form-control" v-model="dato.prop_Ciudad" onkeypress="TextOnly(event)" required>
                             </div>
                         </div>
                     </div>
@@ -299,14 +299,20 @@
 
                axios.get('conductor?page='+page)
                 .then(res=>{
-                this.datos = res.data.propietario.data,
+                this.datos = res.data.conductor.data,
                 this.pagination = res.data.paginate
             })
             },
             changePage: function(page){
                 this.pagination.current_page = page;
                 this.getconductor(page);
-            }
+            },
+            buscar(){
+                axios.get(`/vehiculos?vehi_placa=${this.busqueda}`)
+                        .then(res=>{
+                            this.datos = res.data;
+                })
+            },
         }
     }
 </script>
