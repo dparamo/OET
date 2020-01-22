@@ -2188,7 +2188,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return pagesArray;
     }
   },
-  methods: {
+  methods: _defineProperty({
     agregar: function agregar() {
       var _this2 = this;
 
@@ -2258,14 +2258,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _this6 = this;
 
       axios.get('conductor?page=' + page).then(function (res) {
-        _this6.datos = res.data.propietario.data, _this6.pagination = res.data.paginate;
+        _this6.datos = res.data.conductor.data, _this6.pagination = res.data.paginate;
       });
     },
     changePage: function changePage(page) {
       this.pagination.current_page = page;
       this.getconductor(page);
     }
-  }
+  }, "buscar", function buscar() {
+    var _this7 = this;
+
+    axios.get("/vehiculos?vehi_placa=".concat(this.busqueda)).then(function (res) {
+      _this7.datos = res.data;
+    });
+  })
 });
 
 /***/ }),
@@ -2324,6 +2330,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2331,29 +2357,29 @@ __webpack_require__.r(__webpack_exports__);
       propietarios: [],
       conductores: [],
       dato: {
-        id: '',
-        vehi_placa: '',
-        vehi_color: '',
-        vehi_marca: '',
-        vehi_tipo_vehiculo: '',
-        id_propietario: '',
-        id_conductor: ''
+        id: "",
+        vehi_placa: "",
+        vehi_color: "",
+        vehi_marca: "",
+        vehi_tipo_vehiculo: "",
+        id_propietario: "",
+        id_conductor: ""
       },
-      busqueda: '',
+      busqueda: "",
       pagination: {
-        'total': 0,
-        'current_page': 0,
-        'per_page': 0,
-        'last_page': 0,
-        'from': 0,
-        'to': 0
+        total: 0,
+        current_page: 0,
+        per_page: 0,
+        last_page: 0,
+        from: 0,
+        to: 0
       }
     };
   },
   created: function created() {
     var _this = this;
 
-    axios.get('/vehiculo').then(function (res) {
+    axios.get("/vehiculo").then(function (res) {
       _this.datos = res.data.vehiculo.data, _this.propietarios = res.data.propietario, _this.conductores = res.data.conductor, _this.pagination = res.data.paginate;
     });
   },
@@ -2402,13 +2428,42 @@ __webpack_require__.r(__webpack_exports__);
     getvehiculo: function getvehiculo(page) {
       var _this2 = this;
 
-      axios.get('vehiculo?page=' + page).then(function (res) {
-        _this2.datos = res.data.propietario.data, _this2.pagination = res.data.paginate;
+      axios.get("vehiculo?page=" + page).then(function (res) {
+        _this2.datos = res.data.vehiculo.data, _this2.pagination = res.data.paginate;
       });
     },
     changePage: function changePage(page) {
       this.pagination.current_page = page;
-      this.getvehicul(page);
+      this.getvehiculo(page);
+    },
+    buscar: function buscar() {
+      var _this3 = this;
+
+      axios.get("/vehiculos?vehi_placa=".concat(this.busqueda)).then(function (res) {
+        _this3.datos = res.data;
+      });
+    },
+    pdf: function pdf() {
+      var arreglo = [];
+      var pdf = new jsPDF();
+      var columns = ["Placa", "Marca", "Propietario", "Conductor"];
+      var arreglo = Array();
+
+      for (var index = 0; index < this.datos.length; index++) {
+        var arr = Array();
+        arr.push(this.datos[index]['vehi_placa']);
+        arr.push(this.datos[index]['vehi_marca']);
+        arr.push(this.getprop(this.datos[index]['id_propietario']));
+        arr.push(this.getcond(this.datos[index]['id_conductor']));
+        arreglo.push(arr);
+      }
+
+      pdf.autoTable(columns, arreglo, {
+        margin: {
+          top: 25
+        }
+      });
+      pdf.save("reporte.pdf");
     }
   }
 });
@@ -2964,6 +3019,62 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2971,29 +3082,29 @@ __webpack_require__.r(__webpack_exports__);
       propietarios: [],
       conductores: [],
       dato: {
-        id: '',
-        vehi_placa: '',
-        vehi_color: '',
-        vehi_marca: '',
-        vehi_tipo_vehiculo: '',
-        id_propietario: '',
-        id_conductor: ''
+        id: "",
+        vehi_placa: "",
+        vehi_color: "",
+        vehi_marca: "",
+        vehi_tipo_vehiculo: "",
+        id_propietario: "",
+        id_conductor: ""
       },
-      busqueda: '',
+      busqueda: "",
       pagination: {
-        'total': 0,
-        'current_page': 0,
-        'per_page': 0,
-        'last_page': 0,
-        'from': 0,
-        'to': 0
+        total: 0,
+        current_page: 0,
+        per_page: 0,
+        last_page: 0,
+        from: 0,
+        to: 0
       }
     };
   },
   created: function created() {
     var _this = this;
 
-    axios.get('/vehiculo').then(function (res) {
+    axios.get("/vehiculo").then(function (res) {
       _this.datos = res.data.vehiculo.data, _this.propietarios = res.data.propietario, _this.conductores = res.data.conductor, _this.pagination = res.data.paginate;
     });
   },
@@ -3044,20 +3155,20 @@ __webpack_require__.r(__webpack_exports__);
 
       var datoNueva = this.dato;
       this.dato = {
-        id: '',
-        vehi_placa: '',
-        vehi_color: '',
-        vehi_marca: '',
-        vehi_tipo_vehiculo: '',
-        id_propietario: '',
-        id_conductor: ''
+        id: "",
+        vehi_placa: "",
+        vehi_color: "",
+        vehi_marca: "",
+        vehi_tipo_vehiculo: "",
+        id_propietario: "",
+        id_conductor: ""
       };
-      axios.post('/vehiculo', datoNueva).then(function (res) {
+      axios.post("/vehiculo", datoNueva).then(function (res) {
         var datoServidor = res.data;
 
         _this2.datos.push(datoServidor);
       });
-      alert('Usuario Guardado con Correctamente');
+      alert("Usuario Guardado con Correctamente");
     },
     eliminar: function eliminar(item, index) {
       var _this3 = this;
@@ -3068,7 +3179,7 @@ __webpack_require__.r(__webpack_exports__);
         axios["delete"]("/vehiculo/".concat(item.id)).then(function () {
           _this3.datos.splice(index, 1);
         })["catch"](function (error) {
-          alert('el usuario no se puede eliminar: se encunetra asociado a un vehiculo');
+          alert("el usuario no se puede eliminar: se encunetra asociado a un vehiculo");
         });
       }
     },
@@ -3093,10 +3204,10 @@ __webpack_require__.r(__webpack_exports__);
         id_conductor: dato.id_conductor
       };
       axios.put("/vehiculo/".concat(dato.id), params).then(function (res) {
-        axios.get('/vehiculo').then(function (res) {
+        axios.get("/vehiculo").then(function (res) {
           _this4.datos = res.data.vehiculo.data;
         });
-        alert('vehiculo Editado Correctamente');
+        alert("vehiculo Editado Correctamente");
       });
     },
     buscar: function buscar() {
@@ -3109,14 +3220,21 @@ __webpack_require__.r(__webpack_exports__);
     getvehiculo: function getvehiculo(page) {
       var _this6 = this;
 
-      axios.get('vehiculo?page=' + page).then(function (res) {
-        _this6.datos = res.data.propietario.data, _this6.pagination = res.data.paginate;
+      axios.get("vehiculo?page=" + page).then(function (res) {
+        _this6.datos = res.data.vehiculo.data, _this6.pagination = res.data.paginate;
       });
     },
     changePage: function changePage(page) {
       this.pagination.current_page = page;
-      this.getvehicul(page);
-    }
+      this.getvehiculo(page);
+    } // TextOnly(event) {
+    //   if (event.charCode > 64 || event.charCode < 91) {
+    //     event.returnValue = false;
+    //   } else {
+    //     event.returnValue = true;
+    //   }
+    // }
+
   }
 });
 
@@ -38701,7 +38819,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnly(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.prop_fnombre },
                           on: {
                             input: function($event) {
@@ -38733,7 +38855,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnly(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.prop_Lnombre },
                           on: {
                             input: function($event) {
@@ -38767,7 +38893,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnly(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.prop_apellidos },
                           on: {
                             input: function($event) {
@@ -38977,7 +39107,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnly(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.prop_fnombre },
                           on: {
                             input: function($event) {
@@ -39009,7 +39143,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnly(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.prop_Lnombre },
                           on: {
                             input: function($event) {
@@ -39043,7 +39181,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnly(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.prop_apellidos },
                           on: {
                             input: function($event) {
@@ -39175,7 +39317,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnly(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.prop_Ciudad },
                           on: {
                             input: function($event) {
@@ -39364,29 +39510,87 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("table", { staticClass: "table table-striped" }, [
-      _vm._m(0),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-success",
+            on: {
+              click: function($event) {
+                return _vm.pdf()
+              }
+            }
+          },
+          [_vm._v("Generar PDF")]
+        )
+      ]),
       _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.datos, function(item, index) {
-          return _c("tr", { key: index }, [
-            _c("td", [_c("p", [_vm._v(_vm._s(item.vehi_placa))])]),
-            _vm._v(" "),
-            _c("td", [_c("p", [_vm._v(_vm._s(item.vehi_marca))])]),
-            _vm._v(" "),
-            _c("td", [
-              _c("p", [_vm._v(_vm._s(_vm.getprop(item.id_propietario)))])
-            ]),
-            _vm._v(" "),
-            _c("td", [
-              _c("p", [_vm._v(_vm._s(_vm.getcond(item.id_conductor)))])
-            ])
-          ])
-        }),
-        0
-      )
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("div", { staticClass: "input-group mb-3" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.busqueda,
+                expression: "busqueda"
+              }
+            ],
+            staticClass: "form-control",
+            attrs: { type: "text", placeholder: "Placa", name: "search" },
+            domProps: { value: _vm.busqueda },
+            on: {
+              keyup: function($event) {
+                if (
+                  !$event.type.indexOf("key") &&
+                  _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                ) {
+                  return null
+                }
+                return _vm.buscar()
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.busqueda = $event.target.value
+              }
+            }
+          })
+        ])
+      ])
     ]),
+    _vm._v(" "),
+    _c(
+      "table",
+      { staticClass: "table table-striped", attrs: { id: "contenido" } },
+      [
+        _vm._m(1),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.datos, function(item, index) {
+            return _c("tr", { key: index }, [
+              _c("td", [_c("p", [_vm._v(_vm._s(item.vehi_placa))])]),
+              _vm._v(" "),
+              _c("td", [_c("p", [_vm._v(_vm._s(item.vehi_marca))])]),
+              _vm._v(" "),
+              _c("td", [
+                _c("p", [_vm._v(_vm._s(_vm.getprop(item.id_propietario)))])
+              ]),
+              _vm._v(" "),
+              _c("td", [
+                _c("p", [_vm._v(_vm._s(_vm.getcond(item.id_conductor)))])
+              ])
+            ])
+          }),
+          0
+        )
+      ]
+    ),
     _vm._v(" "),
     _c("nav", { attrs: { "aria-label": "Page navigation example" } }, [
       _c("ul", { staticClass: "pagination" }, [
@@ -39432,6 +39636,21 @@ var render = function() {
   ])
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "span",
+        {
+          staticClass: "input-group-text",
+          attrs: { id: "inputGroup-sizing-default" }
+        },
+        [_vm._v("Buscar")]
+      )
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
@@ -39679,7 +39898,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnly(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.prop_fnombre },
                           on: {
                             input: function($event) {
@@ -39711,7 +39934,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnly(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.prop_Lnombre },
                           on: {
                             input: function($event) {
@@ -39745,7 +39972,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnly(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.prop_apellidos },
                           on: {
                             input: function($event) {
@@ -39955,7 +40186,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnly(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.prop_fnombre },
                           on: {
                             input: function($event) {
@@ -39987,7 +40222,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnly(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.prop_Lnombre },
                           on: {
                             input: function($event) {
@@ -40021,7 +40260,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnly(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.prop_apellidos },
                           on: {
                             input: function($event) {
@@ -40531,7 +40774,7 @@ var render = function() {
                   _c("div", { staticClass: "modal-body" }, [
                     _c("div", { staticClass: "row" }, [
                       _c("div", { staticClass: "form-group col-md-6" }, [
-                        _c("label", { attrs: { for: "inputEmail4" } }, [
+                        _c("label", { attrs: { for: "PlacaMod" } }, [
                           _vm._v("Placa")
                         ]),
                         _vm._v(" "),
@@ -40545,7 +40788,13 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            name: "PlacaMod",
+                            id: "PlacaMod",
+                            onkeypress: "TextAndNumberMax6(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.vehi_placa },
                           on: {
                             input: function($event) {
@@ -40577,7 +40826,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnly(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.vehi_color },
                           on: {
                             input: function($event) {
@@ -40611,7 +40864,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnlyWhiteSpace(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.vehi_marca },
                           on: {
                             input: function($event) {
@@ -40845,7 +41102,13 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            name: "PlacaMod",
+                            id: "PlacaMod",
+                            onkeypress: "TextAndNumberMax6(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.vehi_placa },
                           on: {
                             input: function($event) {
@@ -40877,7 +41140,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnly(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.vehi_color },
                           on: {
                             input: function($event) {
@@ -40911,7 +41178,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "text", required: "" },
+                          attrs: {
+                            type: "text",
+                            onkeypress: "TextOnlyWhiteSpace(event)",
+                            required: ""
+                          },
                           domProps: { value: _vm.dato.vehi_marca },
                           on: {
                             input: function($event) {
