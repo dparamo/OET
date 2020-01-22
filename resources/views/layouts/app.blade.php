@@ -11,6 +11,42 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script type="text/javascript">
+function TextOnly(event) {
+    //no se aceptan Espacion en blanco, acentos, Ñ/ñ    
+    if ((event.charCode < 97 || event.charCode > 122) && (event.charCode < 65 || event.charCode > 90)) {
+        event.returnValue = false;
+    } else {
+        event.returnValue = true;
+    }
+}
+
+function TextAndNumberMax6(event) {    
+    if (
+        (event.charCode < 97 || event.charCode > 122) && 
+        (event.charCode < 65 || event.charCode > 90) && 
+        (event.charCode < 48 || event.charCode > 57)
+        ) {
+        event.returnValue = false;
+    } else {
+        if(document.getElementById("PlacaMod").value.length < 6){
+            event.returnValue = true;
+        }else{
+            event.returnValue = false;
+        }        
+    }
+}
+
+function TextOnlyWhiteSpace(event) {
+    //no se aceptan Espacion en blanco, acentos, Ñ/ñ    
+    if ((event.charCode < 97 || event.charCode > 122) && (event.charCode < 65 || event.charCode > 90) && event.charCode != 32) {
+        event.returnValue = false;
+    } else {
+        event.returnValue = true;
+    }
+}
+
+</script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -18,6 +54,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <script src="https://unpkg.com/jspdf"></script>
+    <script src="https://unpkg.com/jspdf-autotable"></script>
 </head>
 <body>
     <div id="app">
